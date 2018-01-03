@@ -5,7 +5,7 @@ namespace Drupal\Tests\search_api\Kernel\System;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\search_api\Entity\Index;
 use Drupal\search_api\Utility\Utility;
-use Drupal\user\Entity\User;
+use Drupal\user\Entity\Role;
 
 /**
  * Tests extraction of field values, as used during indexing.
@@ -47,7 +47,6 @@ class FieldValuesExtractionTest extends KernelTestBase {
     'field',
     'search_api',
     'search_api_test_extraction',
-    'system',
     'user',
   ];
 
@@ -57,12 +56,9 @@ class FieldValuesExtractionTest extends KernelTestBase {
   public function setUp() {
     parent::setUp();
 
-    $this->installSchema('system', ['sequences']);
     $this->installEntitySchema('entity_test_mulrev_changed');
-    $this->installEntitySchema('user');
-    $this->installConfig(['search_api_test_extraction', 'user']);
-    $entity_storage = \Drupal::entityTypeManager()
-      ->getStorage('entity_test_mulrev_changed');
+    $this->installConfig(['search_api_test_extraction']);
+    $entity_storage = \Drupal::entityTypeManager()->getStorage('entity_test_mulrev_changed');
 
     $this->entities[0] = $entity_storage->create([
       'type' => 'article',
@@ -95,12 +91,11 @@ class FieldValuesExtractionTest extends KernelTestBase {
     ]);
     $this->entities[2]->save();
 
-    user_role_grant_permissions('anonymous', ['view test entity']);
-
-    User::create([
-      'id' => $this->entities[0],
-      'name' => 'Test user',
+    Role::create([
+      'id' => 'anonymous',
+      'label' => 'anonymous',
     ])->save();
+    user_role_grant_permissions('anonymous', ['view test entity']);
 
     $this->index = Index::create([
       'field_settings' => [
@@ -207,7 +202,6 @@ class FieldValuesExtractionTest extends KernelTestBase {
       'entity:entity_test_mulrev_changed' => [
         'name' => 'd',
         'type' => 'e',
-        'soul_mate:name' => 'f',
       ],
       'unknown_datasource' => [
         'name' => 'x',
@@ -221,7 +215,6 @@ class FieldValuesExtractionTest extends KernelTestBase {
         'c' => [],
         'd' => [],
         'e' => [],
-        'f' => [],
       ],
     ];
     $values = $this->fieldsHelper->extractItemValues($items, $properties, FALSE);
@@ -230,12 +223,10 @@ class FieldValuesExtractionTest extends KernelTestBase {
 
     $expected = [
       'foobar' => [
-        // 'a' => 'Tested separately.',
         'b' => [],
         'c' => ['/entity_test_mulrev_changed/manage/1'],
         'd' => ['Article 1'],
         'e' => ['article'],
-        'f' => ['Test user'],
       ],
     ];
     $values = $this->fieldsHelper->extractItemValues($items, $properties);
@@ -251,19 +242,14 @@ class FieldValuesExtractionTest extends KernelTestBase {
         'property_path' => 'aggregated_field',
         'values' => [1, 2],
       ]),
-      'bb' => $this->fieldsHelper->createField($this->index, 'bb_foo', [
+      'bb' => $this->fieldsHelper->createField($this->index, 'aa_foo', [
         'property_path' => 'rendered_item',
         'values' => [3],
       ]),
-      'cc' => $this->fieldsHelper->createField($this->index, 'cc_foo', [
+      'cc' => $this->fieldsHelper->createField($this->index, 'aa_foo', [
         'datasource_id' => 'entity:entity_test_mulrev_changed',
         'property_path' => 'type',
         'values' => [4],
-      ]),
-      'dd' => $this->fieldsHelper->createField($this->index, 'dd_foo', [
-        'datasource_id' => 'entity:entity_test_mulrev_changed',
-        'property_path' => 'soul_mate:name',
-        'values' => [5],
       ]),
     ]);
 
@@ -274,7 +260,6 @@ class FieldValuesExtractionTest extends KernelTestBase {
         'c' => [],
         'd' => [],
         'e' => [4],
-        'f' => [5],
       ],
     ];
     $values = $this->fieldsHelper->extractItemValues($items, $properties, FALSE);
@@ -288,7 +273,6 @@ class FieldValuesExtractionTest extends KernelTestBase {
         'c' => ['/entity_test_mulrev_changed/manage/1'],
         'd' => ['Article 1'],
         'e' => [4],
-        'f' => [5],
       ],
     ];
     $values = $this->fieldsHelper->extractItemValues($items, $properties);

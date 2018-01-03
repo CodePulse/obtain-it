@@ -108,10 +108,6 @@ class Country extends FormElement {
         $element['country_code']['#ajax'] = $element['#ajax'];
         unset($element['#ajax']);
       }
-      if (!empty($element['#description'])) {
-        $element['country_code']['#description'] = $element['#description'];
-        unset($element['#description']);
-      }
     }
     // Remove the 'country_code' level from form state values.
     $element['country_code']['#parents'] = $element['#parents'];

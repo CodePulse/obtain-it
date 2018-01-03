@@ -74,15 +74,19 @@ class Address extends FormElement {
   }
 
   /**
-   * Ensures all keys are set on the provided value.
-   *
-   * @param array $value
-   *   The value.
-   *
-   * @return array
-   *   The modified value.
+   * {@inheritdoc}
    */
-  public static function applyDefaults(array $value) {
+  public static function valueCallback(&$element, $input, FormStateInterface $form_state) {
+    if (is_array($input)) {
+      $value = $input;
+    }
+    else {
+      if (!is_array($element['#default_value'])) {
+        $element['#default_value'] = [];
+      }
+      $value = $element['#default_value'];
+    }
+    // Initialize default keys.
     $properties = [
       'given_name', 'additional_name', 'family_name', 'organization',
       'address_line1', 'address_line2', 'postal_code', 'sorting_code',
@@ -96,27 +100,6 @@ class Address extends FormElement {
     }
 
     return $value;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function valueCallback(&$element, $input, FormStateInterface $form_state) {
-    // Ensure both the default value and the input have all keys set.
-    // Preselect the default country to ensure it's present in the value.
-    $element['#default_value'] = (array) $element['#default_value'];
-    $element['#default_value'] = self::applyDefaults($element['#default_value']);
-    if (empty($element['#default_value']['country_code']) && $element['#required']) {
-      $element['#default_value']['country_code'] = Country::getDefaultCountry($element['#available_countries']);
-    }
-    if (is_array($input)) {
-      $input = self::applyDefaults($input);
-      if (empty($input['country_code']) && $element['#required']) {
-        $input['country_code'] = $element['#default_value']['country_code'];
-      }
-    }
-
-    return is_array($input) ? $input : $element['#default_value'];
   }
 
   /**
@@ -141,8 +124,11 @@ class Address extends FormElement {
     }
     $id_prefix = implode('-', $element['#parents']);
     $wrapper_id = Html::getUniqueId($id_prefix . '-ajax-wrapper');
-    // The #value has the new values on #ajax, the #default_value otherwise.
     $value = $element['#value'];
+    if (empty($value['country_code']) && $element['#required']) {
+      // Preselect the default country so that the other elements can be shown.
+      $value['country_code'] = Country::getDefaultCountry($element['#available_countries']);
+    }
 
     $element = [
       '#tree' => TRUE,
@@ -153,13 +139,13 @@ class Address extends FormElement {
     ] + $element;
     $element['langcode'] = [
       '#type' => 'hidden',
-      '#value' => $element['#default_value']['langcode'],
+      '#value' => $value['langcode'],
     ];
     $element['country_code'] = [
       '#type' => 'address_country',
       '#title' => t('Country'),
       '#available_countries' => $element['#available_countries'],
-      '#default_value' => $element['#default_value']['country_code'],
+      '#default_value' => $value['country_code'],
       '#required' => $element['#required'],
       '#limit_validation_errors' => [],
       '#ajax' => [

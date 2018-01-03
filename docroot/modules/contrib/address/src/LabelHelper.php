@@ -212,10 +212,9 @@ class LabelHelper {
    */
   public static function getPostalCodeLabels() {
     return [
-      PostalCodeType::EIR => t('Eircode', [], ['context' => 'Address label']),
-      PostalCodeType::PIN => t('Pin code', [], ['context' => 'Address label']),
       PostalCodeType::POSTAL => t('Postal code', [], ['context' => 'Address label']),
       PostalCodeType::ZIP => t('Zip code', [], ['context' => 'Address label']),
+      PostalCodeType::PIN => t('Pin code', [], ['context' => 'Address label']),
     ];
   }
 

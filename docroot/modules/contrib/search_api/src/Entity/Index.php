@@ -1131,8 +1131,8 @@ class Index extends ConfigEntityBase implements IndexInterface {
    * {@inheritdoc}
    */
   public function isReindexing() {
-    $key = "search_api.index.{$this->id()}.has_reindexed";
-    return \Drupal::state()->get($key, FALSE);
+    $id = $this->id();
+    return \Drupal::state()->get("search_api.index.$id.has_reindexed", FALSE);
   }
 
   /**
@@ -1145,10 +1145,8 @@ class Index extends ConfigEntityBase implements IndexInterface {
    * @return $this
    */
   protected function setHasReindexed($has_reindexed = TRUE) {
-    if ($this->isReindexing() !== $has_reindexed) {
-      $key = "search_api.index.{$this->id()}.has_reindexed";
-      \Drupal::state()->set($key, $has_reindexed);
-    }
+    $id = $this->id();
+    \Drupal::state()->set("search_api.index.$id.has_reindexed", $has_reindexed);
     return $this;
   }
 
@@ -1390,7 +1388,7 @@ class Index extends ConfigEntityBase implements IndexInterface {
   protected function reactToServerSwitch(IndexInterface $original) {
     // Asserts that the index was enabled before saving and will still be
     // enabled afterwards. Otherwise, this method should not be called.
-    assert($this->status() && $original->status(), '::reactToServerSwitch should only be called when the index is enabled');
+    assert('$this->status() && $original->status()', '::reactToServerSwitch should only be called when the index is enabled');
 
     if ($this->getServerId() != $original->getServerId()) {
       if ($original->hasValidServer()) {
@@ -1420,7 +1418,7 @@ class Index extends ConfigEntityBase implements IndexInterface {
   protected function reactToDatasourceSwitch(IndexInterface $original) {
     // Asserts that the index was enabled before saving and will still be
     // enabled afterwards. Otherwise, this method should not be called.
-    assert($this->status() && $original->status(), '::reactToDatasourceSwitch should only be called when the index is enabled');
+    assert('$this->status() && $original->status()', '::reactToDatasourceSwitch should only be called when the index is enabled');
 
     $new_datasource_ids = $this->getDatasourceIds();
     $original_datasource_ids = $original->getDatasourceIds();
@@ -1452,7 +1450,7 @@ class Index extends ConfigEntityBase implements IndexInterface {
   protected function reactToTrackerSwitch(IndexInterface $original) {
     // Asserts that the index was enabled before saving and will still be
     // enabled afterwards. Otherwise, this method should not be called.
-    assert($this->status() && $original->status(), '::reactToTrackerSwitch should only be called when the index is enabled');
+    assert('$this->status() && $original->status()', '::reactToTrackerSwitch should only be called when the index is enabled');
 
     if ($this->getTrackerId() != $original->getTrackerId()) {
       $index_task_manager = \Drupal::getContainer()

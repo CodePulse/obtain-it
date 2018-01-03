@@ -52,7 +52,10 @@ class DependencyRemovalTest extends KernelTestBase {
     parent::setUp();
 
     $this->installEntitySchema('search_api_task');
-    $this->installConfig('search_api');
+
+    \Drupal::configFactory()->getEditable('search_api.settings')
+      ->set('default_tracker', 'default')
+      ->save();
 
     // Create the index object, but don't save it yet since we want to change
     // its settings anyways in every test.
@@ -434,7 +437,7 @@ class DependencyRemovalTest extends KernelTestBase {
     }
     else {
       $this->assertEquals('default', $tracker_id, 'Tracker was reset');
-      $this->assertEquals($tracker_instance->defaultConfiguration(), $tracker_config, 'Tracker settings were cleared');
+      $this->assertEmpty($tracker_config, 'Tracker settings were cleared');
     }
   }
 
@@ -496,7 +499,9 @@ class DependencyRemovalTest extends KernelTestBase {
 
     // When the index resets the tracker, it needs to know the ID of the default
     // tracker.
-    $this->installConfig('search_api');
+    \Drupal::configFactory()->getEditable('search_api.settings')
+      ->set('default_tracker', 'default')
+      ->save();
 
     // Disabling modules in Kernel tests normally doesn't trigger any kind of
     // reaction, just removes it from the list of modules (for example, to avoid

@@ -301,10 +301,11 @@ function _search_api_views_handler_mapping() {
       ],
       'entity:taxonomy_term' => [
         'argument' => [
-          'id' => 'search_api_term',
+          'id' => 'search_api',
+          'filter' => 'intval',
         ],
         'filter' => [
-          'id' => 'search_api_term',
+          'id' => 'search_api',
         ],
         'sort' => [
           'id' => 'search_api',

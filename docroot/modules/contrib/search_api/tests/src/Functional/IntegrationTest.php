@@ -400,7 +400,7 @@ class IntegrationTest extends SearchApiBrowserTestBase {
     ];
     $this->submitForm($edit, 'Save');
 
-    /** @var \Drupal\search_api\IndexInterface $index */
+    /** @var $index \Drupal\search_api\IndexInterface */
     $index = $this->indexStorage->load($this->indexId);
     $remaining = $index->getTrackerInstance()->getRemainingItemsCount();
     $this->assertEquals(0, $remaining, 'Index was not scheduled for re-indexing when saving its server.');
@@ -449,10 +449,8 @@ class IntegrationTest extends SearchApiBrowserTestBase {
     $this->assertEquals($tracked_items, $this->countTrackedItems(), 'Items are still correctly tracked.');
 
     // Revert back to the default tracker for the rest of the test.
-    $this->drupalGet($edit_path);
     $edit = ['tracker' => 'default'];
-    $this->submitForm($edit, 'tracker_configure');
-    $edit['tracker_config[indexing_order]'] = 'fifo';
+    $this->drupalGet($edit_path);
     $this->submitForm($edit, 'Save');
     $this->checkForMetaRefresh();
     $this->assertSession()->statusCodeEquals(200);
@@ -1464,7 +1462,7 @@ class IntegrationTest extends SearchApiBrowserTestBase {
 
     // Confirm that the index hasn't been deleted.
     $this->indexStorage->resetCache([$this->indexId]);
-    /** @var \Drupal\search_api\IndexInterface $index */
+    /** @var $index \Drupal\search_api\IndexInterface */
     $index = $this->indexStorage->load($this->indexId);
     $this->assertTrue($index, 'The index associated with the server was not deleted.');
     $this->assertFalse($index->status(), 'The index associated with the server was disabled.');
