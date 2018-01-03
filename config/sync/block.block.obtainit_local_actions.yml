@@ -1,0 +1,20 @@
+uuid: a9e514f7-c3bd-4049-b60c-3d4ccdc20914
+langcode: en
+status: true
+dependencies:
+  theme:
+    - obtainit
+_core:
+  default_config_hash: 13GQpeITIJsp1kyPniXtWZfyFH87vb1xxJCHifL4UeE
+id: obtainit_local_actions
+theme: obtainit
+region: content
+weight: -4
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  provider: core
+  label_display: '0'
+visibility: {  }

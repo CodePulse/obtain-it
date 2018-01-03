@@ -1,0 +1,78 @@
+uuid: ace32ffe-927d-4f4f-a199-92910505010c
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_display.comment.item_suggestions.default
+    - core.entity_view_mode.node.teaser
+    - field.field.node.item.body
+    - field.field.node.item.field_company
+    - field.field.node.item.field_contact_opt_in
+    - field.field.node.item.field_item_images
+    - field.field.node.item.field_suggestions
+    - image.style.teaser
+    - node.type.item
+  module:
+    - comment
+    - image
+    - text
+    - user
+id: node.item.teaser
+targetEntityType: node
+bundle: item
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 2
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  field_company:
+    type: entity_reference_label
+    weight: 5
+    region: content
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+  field_contact_opt_in:
+    type: boolean
+    weight: 4
+    region: content
+    label: hidden
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+  field_item_images:
+    type: image_url
+    weight: 3
+    region: content
+    label: hidden
+    settings:
+      image_style: teaser
+    third_party_settings: {  }
+  field_suggestions:
+    type: comment_default
+    weight: 6
+    region: content
+    label: hidden
+    settings:
+      view_mode: default
+      pager_id: 0
+    third_party_settings: {  }
+  links:
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  sharethis:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

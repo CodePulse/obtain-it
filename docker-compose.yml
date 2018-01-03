@@ -1,0 +1,56 @@
+version: '3.1'
+
+services:
+
+# PHP/Apache with mysql-client
+  app:
+    container_name: ${APP_PREFIX}_app
+    image: codepulse/php-7.2.0-apache-mysql
+    volumes:
+      - .:/var/www:cached
+      - ./Docker/etc/apache2/000-default.conf:/etc/apache2/sites-available/000-default.conf:cached
+      - ./Docker/etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini:cached
+    working_dir: /var/www/docroot
+    env_file: .env
+    depends_on:
+      - db
+    ports:
+      - "${APP_PORT}:80"
+    links:
+      - db:${APP_URL}
+      - obtainit_solr:solr.obtainit.localhost
+    restart: always
+
+# Database service
+  db:
+    image: percona:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "${DB_PORT}:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+
+  obtainit_solr:
+    container_name: obtainit_solr
+    image: solr:6-alpine
+    volumes:
+      - obtainit-solr:/opt/solr/server/solr/obtainit_index_conf:cached
+      - ./docroot/modules/contrib/search_api_solr/solr-conf/6.x:/solr-conf/conf:cached
+    ports:
+      - 8983:8983
+    entrypoint:
+      - docker-entrypoint.sh
+      - solr-precreate
+      - obtainit_index_conf
+      - /solr-conf
+
+
+# Volumes to make sure I do not lose any data
+volumes:
+  db_data:
+  obtainit-solr:

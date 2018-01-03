@@ -1,0 +1,66 @@
+<?php
+
+/**
+ * Implements template_preprocess_node()
+ * @see template_preprocess_node()
+ * @param $variables
+ */
+function obtainit_preprocess_node(&$variables) {
+  $node = $variables['node'];
+  $node_owner = $node->getOwner();
+
+  if ($node->getType() == 'item') {
+    $variables['contact_opt_in'] = $node->get('field_contact_opt_in')->value;
+    if ($variables['contact_opt_in'] == 1) {
+      $variables['node_owner_email'] = $node_owner->getEmail();
+      $variables['node_owner_mobile'] = $node_owner->get('field_number')->value;
+    }
+  }
+}
+
+function obtainit_preprocess_comments(&$variables) {
+
+}
+function obtainit_preprocess_comment(&$variables) {
+
+}
+
+/**
+ * Implements hook_preprocess() for globals variables.
+ */
+function obtainit_preprocess(array &$variables) {
+//  $variables['TEMPLATE_DIR'] = $variables['directory'] . '/templates';
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * @param $form_id
+ */
+function obtainit_form_user_login_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  unset($form['name']['#description']);
+  unset($form['pass']['#description']);
+  $form['facebook_login'] = array(
+    '#type' => 'markup',
+    '#markup' => '<a href="/user/simple-fb-connect" class="obtainit-login__facebook obtainit-left text-align-left obtainit-margin-bottom"><i class="fa fa-facebook"></i><span>Log In with Facebook</span></a>',
+    '#weight' => -100,
+  );
+  $form['twitter_login'] = array(
+    '#type' => 'markup',
+    '#markup' => '<a href="/user/simple-fb-connect" class="obtainit-login__twitter obtainit-right text-align-left obtainit-margin-bottom"><i class="fa fa-twitter"></i><span>Log In with Twitter</span></a>',
+    '#weight' => -100,
+  );
+  $form['name']['#attributes']['placeholder'][] = strtoupper($form['name']['#title']) . ' *';
+  $form['pass']['#attributes']['placeholder'][] = strtoupper($form['pass']['#title']) . ' *';
+}
+
+
+/**
+ * Implements hook_theme_suggestions_field_alter().
+ */
+function obtainit_theme_suggestions_field_alter(array &$suggestions, array $variables) {
+  $element = $variables['element'];
+  $suggestions[] = 'field__' . $element['#bundle'] . '__' . $element['#view_mode'] . '__' . $element['#field_name'];
+}

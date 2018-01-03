@@ -1,0 +1,63 @@
+.obtainit-listing {
+  &__hero {
+    height: 380px;
+  }
+  .__wrapper {
+
+  }
+  h1 {
+    color: #fff;
+  }
+  &__item {
+    width: calc(100% - 70px);
+    margin: 0 35px 30px;
+    position: relative;
+    text-align: center;
+    img {
+      width: 270px;
+      height: auto;
+    }
+    &__title {
+      font-weight: bold;
+      a {
+        color: $colour-blue;
+        &:hover {
+          text-decoration: none;
+          color: $colour-light-blue;
+        }
+      }
+    }
+    &__comment_count {
+      color: $colour-violet;
+      font-size: $font-size-md;
+      font-weight: bold;
+    }
+  }
+  &__filters {
+    h3 {
+      font-size: $font-size-lg;
+      display: block;
+      border-bottom: 1px solid $colour-light-violet;
+      padding: 15px 0;
+    }
+  }
+}
+.obtainit-items-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+@media (min-width: 600px) {
+  .obtainit-listing__item {
+    width: calc(50% - 30px);
+    margin: 0 15px 30px;
+  }
+}
+
+@media (min-width: $screen-md-min) {
+  .obtainit-listing__item {
+    width: calc(33.3333% - 30px);
+    margin: 0 15px 30px;
+  }
+}

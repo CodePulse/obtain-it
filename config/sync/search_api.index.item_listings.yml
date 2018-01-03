@@ -1,0 +1,90 @@
+uuid: d7e0c0f9-9307-4027-9cb3-181997c06f72
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - field.storage.node.field_contact_opt_in
+    - field.storage.node.field_item_images
+    - field.storage.node.field_item_tags
+    - search_api.server.obtain_it
+    - core.entity_view_mode.node.teaser
+  module:
+    - search_api
+    - node
+id: item_listings
+name: 'Item listings'
+description: ''
+read_only: false
+field_settings:
+  rendered_item:
+    label: 'Rendered HTML output'
+    property_path: rendered_item
+    type: text
+    configuration:
+      roles:
+        anonymous: anonymous
+      view_mode:
+        'entity:node':
+          item: teaser
+  body:
+    label: Body
+    datasource_id: 'entity:node'
+    property_path: body
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.body
+  field_contact_opt_in:
+    label: 'Do you want your details to be displayed on this page ?'
+    datasource_id: 'entity:node'
+    property_path: field_contact_opt_in
+    type: boolean
+    dependencies:
+      config:
+        - field.storage.node.field_contact_opt_in
+  field_item_images:
+    label: 'Item images'
+    datasource_id: 'entity:node'
+    property_path: field_item_images
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_item_images
+  status:
+    label: 'Publishing status'
+    datasource_id: 'entity:node'
+    property_path: status
+    type: boolean
+  title:
+    label: Title
+    datasource_id: 'entity:node'
+    property_path: title
+    type: string
+  field_item_tags:
+    label: 'Item tags'
+    datasource_id: 'entity:node'
+    property_path: field_item_tags
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_item_tags
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - item
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  rendered_item: {  }
+tracker_settings:
+  default: {  }
+options:
+  index_directly: true
+  cron_limit: 50
+server: obtain_it

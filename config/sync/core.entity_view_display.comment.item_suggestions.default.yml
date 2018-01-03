@@ -1,0 +1,71 @@
+uuid: ca7518e5-7624-4931-a2a4-4c60a140434e
+langcode: en
+status: true
+dependencies:
+  config:
+    - comment.type.item_suggestions
+    - field.field.comment.item_suggestions.field_address
+    - field.field.comment.item_suggestions.field_company
+    - field.field.comment.item_suggestions.field_item_url
+    - field.field.comment.item_suggestions.field_map
+  module:
+    - address
+    - link
+    - simple_gmap
+id: comment.item_suggestions.default
+targetEntityType: comment
+bundle: item_suggestions
+mode: default
+content:
+  field_address:
+    weight: 101
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: address_default
+    region: content
+  field_company:
+    weight: 102
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_item_url:
+    weight: 103
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_map:
+    weight: 104
+    label: hidden
+    settings:
+      include_map: true
+      apikey: ''
+      iframe_width: 200
+      iframe_height: 200
+      static_scale: 1
+      link_text: 'View larger map'
+      zoom_level: 14
+      map_type: m
+      langcode: en
+      include_static_map: false
+      include_link: false
+      include_text: false
+    third_party_settings: {  }
+    type: simple_gmap
+    region: content
+  links:
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

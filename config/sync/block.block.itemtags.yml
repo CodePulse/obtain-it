@@ -1,0 +1,28 @@
+uuid: 75ec7710-166c-4ca6-bc68-2e37a31340ca
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.item_tags
+  module:
+    - facets
+    - system
+  theme:
+    - obtainit
+id: itemtags
+theme: obtainit
+region: sidebar_first
+weight: 0
+provider: null
+plugin: 'facet_block:item_tags'
+settings:
+  id: 'facet_block:item_tags'
+  label: 'Item tags'
+  provider: facets
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: /items-listing
+    negate: false
+    context_mapping: {  }
