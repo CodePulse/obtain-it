@@ -1,0 +1,38 @@
+uuid: eb0934f4-1028-4369-ab00-0d90595ad46c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_taxonomy_image
+    - taxonomy.vocabulary.item_tags
+  module:
+    - image
+id: taxonomy_term.item_tags.field_taxonomy_image
+field_name: field_taxonomy_image
+entity_type: taxonomy_term
+bundle: item_tags
+label: 'Taxonomy Image'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg'
+  max_filesize: ''
+  max_resolution: ''
+  min_resolution: ''
+  alt_field: true
+  alt_field_required: true
+  title_field: false
+  title_field_required: false
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: image

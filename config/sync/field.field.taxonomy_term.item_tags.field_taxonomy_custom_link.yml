@@ -1,0 +1,23 @@
+uuid: 1e40159b-cc85-484b-ac22-e2350b8e6763
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_taxonomy_custom_link
+    - taxonomy.vocabulary.item_tags
+  module:
+    - link
+id: taxonomy_term.item_tags.field_taxonomy_custom_link
+field_name: field_taxonomy_custom_link
+entity_type: taxonomy_term
+bundle: item_tags
+label: 'Taxonomy custom link'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 0
+field_type: link

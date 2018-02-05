@@ -12,6 +12,7 @@ module:
   config: 0
   contact: 0
   contextual: 0
+  ctools: 0
   custom_obtain_comments: 0
   datetime: 0
   dblog: 0
@@ -19,6 +20,7 @@ module:
   dynamic_page_cache: 0
   editor: 0
   facets: 0
+  facets_pretty_paths: 0
   field: 0
   field_ui: 0
   file: 0
@@ -55,6 +57,7 @@ module:
   user: 0
   views_ui: 0
   menu_link_content: 1
+  pathauto: 1
   views: 10
   standard: 1000
 theme:
