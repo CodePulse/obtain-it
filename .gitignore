@@ -16,6 +16,11 @@ src/themes/contrib/*
 # Core's dependencies are managed with Composer.
 vendor
 
+# Ignore core and contrib when managing all of a project's dependencies with Composer
+# including Drupal core.
+docroot/core
+docroot/modules/contrib/*
+
 # Ignore configuration files that may contain sensitive information.
 sites/*/settings*.php
 sites/*/services*.yml

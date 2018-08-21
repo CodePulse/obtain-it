@@ -7,9 +7,9 @@ services:
     container_name: ${APP_PREFIX}_app
     image: codepulse/php-7.2.0-apache-mysql
     volumes:
-      - .:/var/www:cached
-      - ./Docker/etc/apache2/000-default.conf:/etc/apache2/sites-available/000-default.conf:cached
-      - ./Docker/etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini:cached
+      - .:/var/www
+      - ./Docker/etc/apache2/000-default.conf:/etc/apache2/sites-available/000-default.conf
+      - ./Docker/etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini
     working_dir: /var/www/docroot
     env_file: .env
     depends_on:
@@ -19,16 +19,15 @@ services:
     links:
       - db:${APP_URL}
       - obtainit_solr:solr.obtainit.localhost
-    restart: always
 
 # Database service
   db:
     image: percona:5.7
     volumes:
       - db_data:/var/lib/mysql
+      - ./docker/etc/mysql/my.cnf:/etc/mysql/my.cnf:cached
     ports:
-      - "${DB_PORT}:3306"
-    restart: always
+      - "${DB_PORT}:3336"
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
@@ -42,7 +41,7 @@ services:
       - obtainit-solr:/opt/solr/server/solr/obtainit_index_conf:cached
       - ./docroot/modules/contrib/search_api_solr/solr-conf/6.x:/solr-conf/conf:cached
     ports:
-      - 8983:8983
+      - 8982:8983
     entrypoint:
       - docker-entrypoint.sh
       - solr-precreate
