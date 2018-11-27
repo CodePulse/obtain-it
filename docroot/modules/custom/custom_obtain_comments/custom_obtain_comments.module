@@ -37,6 +37,6 @@ function custom_obtain_comments_form_alter(&$form, \Drupal\Core\Form\FormStateIn
  */
 function  custom_obtain_comments_form_comment_item_suggestions_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
   $form['field_map']['#access'] = FALSE;
-  $f='f';
+  $form["actions"]["submit"]["#value"]->string = 'Submit!';
 
 }

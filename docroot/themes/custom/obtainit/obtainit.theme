@@ -11,6 +11,7 @@ function obtainit_preprocess_node(&$variables) {
   $node_owner = $node->getOwner();
 
   if ($node->getType() == 'item') {
+    $variables['comment_count'] = $node->field_suggestions->comment_count;
     $variables['contact_opt_in'] = $node->get('field_contact_opt_in')->value;
     if ($variables['contact_opt_in'] == 1) {
       $variables['node_owner_email'] = $node_owner->getEmail();
@@ -22,8 +23,20 @@ function obtainit_preprocess_node(&$variables) {
 function obtainit_preprocess_comments(&$variables) {
 
 }
-function obtainit_preprocess_comment(&$variables) {
 
+/**
+ * @param $variables
+ */
+function obtainit_preprocess_comment(&$variables) {
+  $comment = $variables['comment'];
+
+  $company_reference = $comment->get('field_company')->referencedEntities();
+  $company_node = array_shift($company_reference);
+  $company_logo_uri = $company_node->field_company_logo->entity->uri->value;
+  if ($company_logo_uri) {
+    $variables['company_logo_path'] = file_create_url($company_logo_uri);
+  }
+  $hey = 'f';
 }
 
 /**

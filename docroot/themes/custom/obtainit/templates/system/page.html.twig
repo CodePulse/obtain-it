@@ -79,25 +79,20 @@
   {% endblock page_content %}
 </div>
 
-{% block layout_container %}
   <div class="layout-container">
-    {% if page.sidebar_first %}
-      <aside class="layout-sidebar-first" role="complementary">
-        {{ page.sidebar_first }}
-      </aside>
-    {% endif %}
-
-    {% if page.sidebar_second %}
-      <aside class="layout-sidebar-second" role="complementary">
-        {{ page.sidebar_second }}
-      </aside>
-    {% endif %}
-
-    {% if page.footer %}
-      <footer role="contentinfo">
-        {{ page.footer }}
-      </footer>
-    {% endif %}
-
+    <footer role="contentinfo" class="obtainit-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <h3>{{ 'Obtain it' | t }}</h3>
+          </div>
+          <div class="col-md-4">
+            <h3>{{ 'Updates' | t }}</h3>
+          </div>
+          <div class="col-md-4">
+            <h3>{{ 'Recently viewed' | t }}</h3>
+          </div>
+        </div>
+      </div>
+    </footer>
   </div>
-{% endblock layout_container %}

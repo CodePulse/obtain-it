@@ -22,11 +22,13 @@
   </div>
   <div class="row">
     <div class="obtain-page-section obtain-page-section__padding">
+      {% if comment_count %}
       <div class="obtain-page-section__header">
         <div class="col-md-12">
           <h2>{{ 'Possible locations'|trans }}</h2>
         </div>
       </div>
+      {% endif %}
       {{ content.field_suggestions }}
     </div>
   </div>
